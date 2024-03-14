@@ -1,0 +1,52 @@
+name: import-gpg
+
+on:
+  push:
+    branches: main
+permissions: write-all
+jobs:
+  sign-commit:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+      -
+        name: Sign commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "action-bot@eastontech.net"
+          git add .
+          git commit -m "CI: Update Snapshots" -S || echo "No changes to commit"
+          git push
+      # echo foo >> bar.txt
+
+      # - name: Import GPG key
+      #   uses: crazy-max/ghaction-import-gpg@v6
+      #   with:
+      #     gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      #     passphrase: ${{ secrets.PASSPHRASE }}
+      #     git_user_signingkey: true
+      #     git_commit_gpgsign: true
+          
+      # - name: Configure Git for GPG
+      #   run: |
+      #     git config --global user.signingkey ${{ secrets.GPG_KEY_ID }}
+      #     git config --global commit.gpgsign true
+          
+      # - name: Commit and Push Changes
+      #   run: |
+      #     echo foo > bar.txt
+      #     git config --global user.name "GitHub Actions Bot"
+      #     git config --global user.email "action-bot@eastontech.net"
+      #     git add .
+      #     git commit -m "CI: Update Snapshots" -S || echo "No changes to commit"
+      #     git push
