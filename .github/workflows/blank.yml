@@ -24,6 +24,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "nirav@cloudjourney.in"
+          echo foo >> bar.txt
           git add .
           git commit -m "CI: Update Snapshots" -S || echo "No changes to commit"
           git push
