@@ -23,7 +23,7 @@ jobs:
         name: Sign commit and push changes
         run: |
           git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "action-bot@eastontech.net"
+          git config --global user.email "nirav@cloudjourney.in"
           git add .
           git commit -m "CI: Update Snapshots" -S || echo "No changes to commit"
           git push
